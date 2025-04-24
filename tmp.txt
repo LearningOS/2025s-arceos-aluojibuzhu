@@ -1,0 +1,4 @@
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+No color
+print_with_color fault
