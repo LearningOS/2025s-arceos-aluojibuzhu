@@ -5,7 +5,7 @@
 #[cfg(feature = "axstd")]
 extern crate axstd as std;
 
-use std::collections::HashMap;
+use axstd::collections::HashMap;
 
 #[cfg_attr(feature = "axstd", no_mangle)]
 fn main() {

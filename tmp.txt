@@ -1,4 +1,42 @@
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.1 (2017-01-24)
-No color
-print_with_color fault
+Has color
+Has Hello, Arceos!
+print_with_color pass
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+ramfs_rename fault
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+alt_alloc default
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+support_hashmap default
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+make[1]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
+make -C origin
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
+make -C hello_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+riscv64-linux-musl-gcc -static hello.c -o hello
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+make[1]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
+File 'payload/mapfile_c/mapfile' doesn't exist!
+sys_mmap default
+    [92;1mCreating[0m FAT32 disk image "disk.img" ...
+mkfs.fat 4.1 (2017-01-24)
+make[1]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
+make -C origin
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
+make -C hello_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+riscv64-linux-musl-gcc -static hello.c -o hello
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+make[1]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
+File 'payload/skernel2/skernel2' doesn't exist!
+simple_hv default
+100
