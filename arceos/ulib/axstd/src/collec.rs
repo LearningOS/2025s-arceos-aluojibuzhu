@@ -1,12 +1,14 @@
-extern crate alloc;
 
-use alloc::boxed::Box;
+
+// axstd/src/collec.rs
+#![cfg(feature = "alloc")]  // 确保只在启用 alloc 时编译
+extern crate alloc;
 use alloc::vec::Vec;
+use alloc::boxed::Box;
+
 use ahash::AHasher;
 use core::hash::{BuildHasher, BuildHasherDefault, Hash, Hasher};
 use core::iter::Iterator;
-
-
 // 新增迭代器相关实现
 pub struct Iter<'a, K, V> {
     map: &'a HashMap<K, V>,
@@ -122,7 +124,7 @@ where
     // 删除键值
     pub fn remove(&mut self, key: &K) -> Option<V> {
         let idx = self.hash(key);
-        let mut head = &mut self.buckets[idx];
+        let head = &mut self.buckets[idx];
 
         // 处理头节点
         if let Some(n) = head {
