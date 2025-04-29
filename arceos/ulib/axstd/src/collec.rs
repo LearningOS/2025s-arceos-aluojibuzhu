@@ -1,8 +1,7 @@
-
-
 // axstd/src/collec.rs
 #![cfg(feature = "alloc")]  // 确保只在启用 alloc 时编译
 extern crate alloc;
+
 use alloc::vec::Vec;
 use alloc::boxed::Box;
 

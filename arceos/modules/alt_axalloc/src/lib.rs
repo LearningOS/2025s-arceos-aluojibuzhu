@@ -13,8 +13,9 @@ use kspin::SpinNoIrq;
 const PAGE_SIZE: usize = 0x1000;
 
 /// The global allocator used by ArceOS.
+#[derive(Debug)]
 pub struct GlobalAllocator {
-    inner: SpinNoIrq<EarlyAllocator<PAGE_SIZE>>,
+    inner: SpinNoIrq<EarlyAllocator>,
 }
 
 impl GlobalAllocator {
@@ -112,6 +113,7 @@ pub fn global_init(start_vaddr: usize, size: usize) {
         start_vaddr,
         start_vaddr + size
     );
+    debug!("golab is {:?}",GLOBAL_ALLOCATOR);
     GLOBAL_ALLOCATOR.init(start_vaddr, size);
 }
 
