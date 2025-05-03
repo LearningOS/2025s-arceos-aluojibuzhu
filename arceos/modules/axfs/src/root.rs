@@ -137,7 +137,8 @@ impl VfsNodeOps for RootDirectory {
             if rest_path.is_empty() {
                 ax_err!(PermissionDenied) // cannot rename mount points
             } else {
-                fs.root_dir().rename(rest_path, dst_path)
+                let (new,new_rest)=split_path(dst_path);
+                fs.root_dir().rename(rest_path, new_rest.unwrap())
             }
         })
     }
@@ -307,4 +308,21 @@ pub(crate) fn rename(old: &str, new: &str) -> AxResult {
         remove_file(None, new)?;
     }
     parent_node_of(None, old).rename(old, new)
+}
+
+fn split_path(path: &str) -> (&str, Option<&str>) {
+    let trimmed = path.trim_start_matches('/');
+    match trimmed.find('/') {
+        Some(pos) => {
+            let (first, rest_with_slash) = trimmed.split_at(pos);
+            // 保留剩余部分的 /，除非是空路径
+            let rest = if rest_with_slash.is_empty() {
+                None
+            } else {
+                Some(rest_with_slash) // 包含前导/
+            };
+            (first, rest)
+        }
+        None => (path, None), // 最后一级时返回原始路径（带/）
+    }
 }

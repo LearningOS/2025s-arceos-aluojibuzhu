@@ -4,6 +4,7 @@ use alloc::{string::String, vec::Vec};
 
 use axfs_vfs::{VfsDirEntry, VfsNodeAttr, VfsNodeOps, VfsNodeRef, VfsNodeType};
 use axfs_vfs::{VfsError, VfsResult};
+use log::debug;
 use spin::RwLock;
 
 use crate::file::FileNode;
@@ -65,6 +66,27 @@ impl DirNode {
             }
         }
         children.remove(name);
+        Ok(())
+    }
+
+    pub fn rename_node(&self,old:&str,new:&str)-> VfsResult{
+        debug!("rename_node old is {} new is {}",old,new);
+        if self.exist(new) {
+            log::error!("AlreadyExists {}", new);
+            return Err(VfsError::AlreadyExists);
+        }
+        let mut children = self.children.write();
+        let node = children.get(old).ok_or(VfsError::NotFound)?;
+        if let Some(dir) = node.as_any().downcast_ref::<DirNode>() {
+            if !dir.children.read().is_empty() {
+                return Err(VfsError::DirectoryNotEmpty);
+            }
+        }
+        let old_node=children.remove(old).unwrap();
+        drop(children);
+        debug!("123456");
+        self.children.write().insert(new.into(), old_node);
+        debug!("7890123");
         Ok(())
     }
 }
@@ -165,6 +187,33 @@ impl VfsNodeOps for DirNode {
         }
     }
 
+    fn rename(&self, _src_path: &str, _dst_path: &str) -> VfsResult {
+        log::debug!("rename old : {} new:{}", _src_path,_dst_path);
+        let (old, old_rest) = split_path(_src_path);
+        let (new, new_rest) = split_path(_dst_path);
+        debug!("fffff");
+        if let Some(old_rest) = old_rest {
+            let new_rest=new_rest.unwrap();
+            
+            match old {
+                "" | "." => self.rename_node(old_rest,new_rest),
+                ".." => self.parent().ok_or(VfsError::NotFound)?.rename(old_rest, new_rest),
+                _ => {
+                    let subdir = self
+                        .children
+                        .read()
+                        .get(old)
+                        .ok_or(VfsError::NotFound)?
+                        .clone();
+                    subdir.rename(old_rest, new_rest)
+                }
+            }
+        } else if old.is_empty() || old == "." || old == ".." {
+            Err(VfsError::InvalidInput) // remove '.' or '..
+        } else {
+            self.rename_node(old, new)
+        }
+    }
     axfs_vfs::impl_vfs_dir_default! {}
 }
 

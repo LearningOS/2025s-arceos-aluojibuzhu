@@ -5,7 +5,7 @@ Has Hello, Arceos!
 print_with_color pass
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.1 (2017-01-24)
-ramfs_rename fault
+ramfs_rename pass
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.1 (2017-01-24)
 alt_alloc pass
@@ -40,4 +40,4 @@ make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payl
 make[1]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
 File 'payload/skernel2/skernel2' doesn't exist!
 simple_hv default
-300
+400

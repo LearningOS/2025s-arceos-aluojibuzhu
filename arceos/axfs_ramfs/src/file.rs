@@ -1,5 +1,6 @@
 use alloc::vec::Vec;
 use axfs_vfs::{impl_vfs_non_dir_default, VfsNodeAttr, VfsNodeOps, VfsResult};
+use log::debug;
 use spin::RwLock;
 
 /// The file node in the RAM filesystem.
@@ -52,5 +53,9 @@ impl VfsNodeOps for FileNode {
         Ok(buf.len())
     }
 
+    fn rename(&self, _src_path: &str, _dst_path: &str) -> VfsResult {
+        debug!("tttttttttttttttttttttttttttttttttt");
+        Ok(())
+    }
     impl_vfs_non_dir_default! {}
 }
