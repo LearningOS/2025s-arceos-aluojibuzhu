@@ -21,11 +21,26 @@ make[2]: 对“all”无需做任何事。
 make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
 make -C hello_c
 make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
-riscv64-linux-musl-gcc -static hello.c -o hello
+make[2]: 对“all”无需做任何事。
 make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+make -C fileops_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/fileops_c”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/fileops_c”
+make -C mapfile_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/mapfile_c”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/mapfile_c”
+make -C skernel
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel”
+make -C skernel2
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel2”
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel2”
 make[1]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
-File 'payload/mapfile_c/mapfile' doesn't exist!
-sys_mmap default
+Write file 'payload/mapfile_c/mapfile' into disk.img
+sys_mmap pass
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.1 (2017-01-24)
 make[1]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
@@ -35,9 +50,24 @@ make[2]: 对“all”无需做任何事。
 make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/origin”
 make -C hello_c
 make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
-riscv64-linux-musl-gcc -static hello.c -o hello
+make[2]: 对“all”无需做任何事。
 make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/hello_c”
+make -C fileops_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/fileops_c”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/fileops_c”
+make -C mapfile_c
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/mapfile_c”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/mapfile_c”
+make -C skernel
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel”
+make[2]: 对“all”无需做任何事。
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel”
+make -C skernel2
+make[2]: 进入目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel2”
+make[2]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload/skernel2”
 make[1]: 离开目录“/home/hahaha/桌面/2025s-arceos-aluojibuzhu/arceos/payload”
-File 'payload/skernel2/skernel2' doesn't exist!
+Write file 'payload/skernel2/skernel2' into disk.img
 simple_hv default
-400
+500

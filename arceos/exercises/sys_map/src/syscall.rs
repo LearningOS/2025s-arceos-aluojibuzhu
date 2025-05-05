@@ -8,7 +8,8 @@ use axtask::current;
 use axtask::TaskExtRef;
 use axhal::paging::MappingFlags;
 use arceos_posix_api as api;
-
+use memory_addr::{VirtAddr, VirtAddrRange};
+use axhal::mem::{PAGE_SIZE_4K, phys_to_virt};
 const SYS_IOCTL: usize = 29;
 const SYS_OPENAT: usize = 56;
 const SYS_CLOSE: usize = 57;
@@ -19,9 +20,9 @@ const SYS_EXIT: usize = 93;
 const SYS_EXIT_GROUP: usize = 94;
 const SYS_SET_TID_ADDRESS: usize = 96;
 const SYS_MMAP: usize = 222;
-
+const APP_ENTRY: usize = 0x1000;
 const AT_FDCWD: i32 = -100;
-
+const USER_STACK_SIZE: usize = 0x10000;
 /// Macro to generate syscall body
 ///
 /// It will receive a function which return Result<_, LinuxError> and convert it to
@@ -140,7 +141,42 @@ fn sys_mmap(
     fd: i32,
     _offset: isize,
 ) -> isize {
-    unimplemented!("no sys_mmap!");
+    let mut task = axtask::current();
+    let mut uspace=task.task_ext().aspace.lock();
+
+    let mut buf = [0u8; 64];
+    let ptr = buf.as_mut_ptr() as *mut c_void; 
+    api::sys_read(fd, ptr, length);
+
+    let free_addr=uspace.find_free_area(APP_ENTRY.into(), length, VirtAddrRange::new(APP_ENTRY.into(), 0x4000000000.into())).unwrap();
+
+    debug!("the free is {}",free_addr.as_usize());
+    uspace.map_alloc(free_addr ,PAGE_SIZE_4K, MappingFlags::READ|MappingFlags::WRITE|MappingFlags::EXECUTE|MappingFlags::USER, true).unwrap();
+
+    let (paddr, _, _) = uspace
+        .page_table()
+        .query(free_addr.into())
+        .unwrap_or_else(|_| panic!("Mapping failed for segment: {:#x}", APP_ENTRY));
+
+    ax_println!("paddr: {:#x}", paddr);
+
+    
+    unsafe {
+        core::ptr::copy_nonoverlapping(
+            buf.as_ptr(),
+            phys_to_virt(paddr).as_mut_ptr(),
+            length,
+        );
+    }
+
+    let dst = unsafe { core::slice::from_raw_parts_mut(free_addr.as_mut_ptr(), 64) .into_iter()};
+    for buf in buf{
+        debug!("the buf is {} ",buf);
+    }
+    for dst in dst.into_iter(){
+        debug!(" the dst is {}",dst);
+    }
+    free_addr.as_usize() as isize
 }
 
 fn sys_openat(dfd: c_int, fname: *const c_char, flags: c_int, mode: api::ctypes::mode_t) -> isize {
