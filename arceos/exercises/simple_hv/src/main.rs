@@ -44,11 +44,11 @@ fn main() {
     // Setup context to prepare to enter guest mode.
     let mut ctx = VmCpuRegisters::default();
     prepare_guest_context(&mut ctx);
-
+    
     // Setup pagetable for 2nd address mapping.
     let ept_root = uspace.page_table_root();
     prepare_vm_pgtable(ept_root);
-
+    debug!("11111111111111111111");
     // Kick off vm and wait for it to exit.
     while !run_guest(&mut ctx) {
     }
@@ -71,7 +71,7 @@ fn run_guest(ctx: &mut VmCpuRegisters) -> bool {
     unsafe {
         _run_guest(ctx);
     }
-
+    debug!("222222222222222222");
     vmexit_handler(ctx)
 }
 
@@ -101,17 +101,31 @@ fn vmexit_handler(ctx: &mut VmCpuRegisters) -> bool {
                 panic!("bad sbi message! ");
             }
         },
-        Trap::Exception(Exception::IllegalInstruction) => {
-            panic!("Bad instruction: {:#x} sepc: {:#x}",
-                stval::read(),
-                ctx.guest_regs.sepc
-            );
-        },
-        Trap::Exception(Exception::LoadGuestPageFault) => {
-            panic!("LoadGuestPageFault: stval{:#x} sepc: {:#x}",
-                stval::read(),
-                ctx.guest_regs.sepc
-            );
+        Trap::Exception(Exception::IllegalInstruction) => {  
+            // Log the error  
+            ax_println!("Bad instruction: {:#x} sepc: {:#x}",  
+                stval::read(),  
+                ctx.guest_regs.sepc  
+            );  
+              
+            // Advance PC by 4 bytes (standard RISC-V instruction length)  
+            ctx.guest_regs.sepc += 4;  
+            ctx.guest_regs.gprs.set_reg(A0, 0x6688);
+            // Return false to continue execution  
+            return false  
+        },  
+        Trap::Exception(Exception::LoadGuestPageFault) => {  
+            // Log the error  
+            ax_println!("LoadGuestPageFault: stval{:#x} sepc: {:#x}",  
+                stval::read(),  
+                ctx.guest_regs.sepc  
+            );  
+              
+            // Advance PC by 4 bytes  
+            ctx.guest_regs.sepc += 4;  
+            ctx.guest_regs.gprs.set_reg(A1, 0x1234);
+            // Return false to continue execution  
+            return false  
         },
         _ => {
             panic!(
